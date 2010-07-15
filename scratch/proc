@@ -1,0 +1,16 @@
+
+class C
+  attr_accessor :x
+
+  def get_proc
+    proc { @x + 1 }
+  end
+end
+  
+c = C.new
+pc = c.get_proc
+c.x = 5
+p pc.call
+c.x += 1
+p pc.call
+

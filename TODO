@@ -1,0 +1,13 @@
+TODO
+- Add documentation on how to use expected_args (named and arity). Matt Lawrence
+- Support CVS style command line
+- POSIX control from Application
+- Support user defined option shortcuts
+- Support auto generated synopsis
+  - support expected args
+- change :opt_not_found to :default ?
+- blocks for modifying descriptions ? Has not been requested
+x Add paragraph breaks to short and long_description by supporting [].
+  added for long_description and synopsis, not short_description
+x User para's in man page
+REJECTED

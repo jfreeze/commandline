@@ -1,0 +1,18 @@
+
+class C
+  p private_instance_methods.include?("initialize")
+  p private_instance_methods(false).include?("initialize")
+end
+
+
+class Parent
+  def initialize; end
+end
+
+
+class Child
+  p private_instance_methods(false).include?("initialize")
+  def initialize
+  end
+  p private_instance_methods(false).include?("initialize")
+end

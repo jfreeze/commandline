@@ -1,0 +1,1005 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<title>CommandLine::OptionParser</title>
+
+<style type="text/css">
+body,td {
+ font-size:   small;
+ line-height: 130%;
+}
+
+a { 
+   text-decoration: none; 
+}
+
+a:link, a:visited {
+   color: #2050f0;
+}
+
+h1, h2, h3, h4, h5, h6 { 
+    color: #446060;
+}
+
+pre {
+   #border-left: 7px solid #e8d8d8;
+   background: #ffeeff;
+   border-top: 2px solid #aaaaaa;
+   border-left: 2px solid #aaaaaa;
+}
+
+.sidebar {
+  font-size: smaller;
+  color:     #70b0b0;
+}
+
+.sidebar a:link {
+  color:     #104020;
+}
+
+.sidebar a:visited {
+  color:     #104020;
+}
+
+.sidebar a:hover {
+  color:     #401020;
+  font-weight: bold;
+}
+
+.Sidebarwarning {
+  color:     #902020;
+  padding-left:    1em;
+}
+
+.sidebarholder {
+  border-top: 2px solid #aaaaaa;
+  border-left: 2px solid #aaaaaa;
+  padding: 0px;
+  margin-bottom: 16px;
+}
+
+.sidebartitle {
+  background: #c0e0e0;
+  padding-left: 8px;
+  color: #0000cc;
+}
+
+.sidebarbody {
+  background: #f8ffff;
+  color:      #a08080;
+  padding-left: 8px;
+}
+
+.sidebartext {
+  color:      #80a0a0;
+}
+
+.sidebar TABLE TABLE, .sidebar TABLE TABLE TD {
+  color:      #a08080;
+  padding-right: 0.5em;
+  padding-left:  0em;
+  padding-top:   0em;
+  padding-bottom:   0em;
+}
+
+.sidebarsubhead {
+  color:  #503030;
+  background: #f8d0d0;
+}
+
+.indent {
+  margin-left: 1.5em;
+}
+
+.catcount {
+  color:      #807070;
+}
+
+.entry {
+  border-top: 2px solid #aaaaaa;
+  border-left: 2px solid #aaaaaa;
+  padding: 0px;
+}
+
+.entrytitlebar {
+  #background: #e0c0e0;
+  background: #aaaaff;
+}
+
+.entrytitle {
+  font-family: Arial,Helvetica;
+  color: #111166;
+  padding-left: 12pt;
+  font-size: large;
+  font-variant: small-caps;
+}
+
+.entrytitledetail {
+  text-align: right;
+  font-size: x-small;
+  padding-right: 12pt;
+}
+
+.entrybody {
+  padding-left: 36pt;
+  padding-right: 12pt;
+  padding-bottom: 12pt;
+  line-height:   130%;
+  #background: #f8f0f0;
+  background: #eeeeff;
+}
+
+.entrybody h1,h2,h3,h4 {
+   line-height: 100%;
+}
+
+.pagetitle {
+  font-size: xx-large;
+  font-family: Arial,Helvetica;
+  #text-shadow: .18em .15em .2em #223366;
+  text-shadow: .18em .15em .2em #9999cc;
+}
+
+.titlemenu {
+  font-size: x-small;
+  font-family: Arial,Helvetica;
+  text-align:  right;
+}
+
+.schedhead {
+  font-size:   small;
+  font-family: Arial,Helvetica;
+  text-align:  right;
+  font-weight: bold;
+  background:  #403030;
+  color:       #c0c0c0;
+}
+
+.schedentry {
+  font-size:   small;
+  font-family: Arial,Helvetica;
+  text-align:  center;
+  background:  #d0c0c0;
+}
+
+.schedempty {
+  font-size:   small;
+  background:  #f0e0e0;
+}
+
+.sidebartable {
+  color:      #a08080;
+}
+
+.c {
+  text-align: right;
+  padding-right: 0.5em;
+  padding-left:  0em;
+  padding-top:   0em;
+  padding-bottom:   0em;
+}
+.ctitle {
+  text-align: right;
+  padding-right: 0.5em;
+  padding-left:  0em;
+  padding-top:   0em;
+  padding-bottom:   0em;
+  border-bottom:    1px solid #d0d0d0;
+}
+.ctotal {
+  text-align: right;
+  padding-right: 0.5em;
+  padding-left:  0em;
+  padding-top:   0em;
+  padding-bottom:   0em;
+  border-top:    1px solid #d0d0d0;
+  border-bottom:    1px solid #d0d0d0;
+}
+
+.caltoday {
+  text-align: right;
+  background: #f8d0d0;
+}
+
+</style> 
+
+</head>
+<body>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr valign="bottom">
+<td class="pagetitle">CommandLine::OptionParser</a></td>
+</tr>
+</table>
+<hr />
+<table>
+<tr valign="top"><td>
+
+<table class="entry" border="0" cellspacing="0" width="100%">
+<tr class="entrybody"><td colspan="3" class="entrybody">
+<h1>Welcome to OptionParser</h1>
+<ul>
+<li>Copyright &#169; 2005 Jim Freeze
+
+</li>
+<li>Author: Jim Freeze
+
+</li>
+<li><a href="http://www.freeze.org/ruby/optionparser/license.txt">License</a>
+</li>
+<li><a href="http://rubyforge.org/projects/optionparser/">Project Page</a>
+</li>
+<li><a href="http://rubyforge.org/frs/?group_id=632&release_id=2345">Download</a>
+</li>
+</ul>
+<tt>OptionParser</tt> is
+designed to be a flexible command line parser with a Ruby look and feel to
+it. <tt>OptionParser</tt> got
+its birth from the need for a parser that is standards compliant, yet
+flexible. <tt>OptionParser</tt>
+supports the standard command line styles of <tt>Unix</tt>, <tt>Gnu</tt>
+and <tt>X Toolkit</tt>, but also lets you break those rules.
+
+<p>
+<tt>OptionParser</tt> is
+not a port of a traditional command line parser, but it is written to meet
+the feature requirements of traditional command line parsers. When using it
+as a library, you should notice that it is expressive, supports
+Ruby&#8217;s blocks and lambda&#8217;s, and is sprinkled with a little bit
+of magic.
+</p>
+<p>
+While the library can be used by itself, it is also designed to work with
+the <tt>CommandLine::Application</tt> class. These tools work together to
+facilitate the generation of a sophisticated (batch oriented) application
+user interface in a matter of minutes.
+</p>
+<p>
+If you need a refresher on the traditional option parsing schemes, see
+&quot;Traditional Option Parsing Schemes&quot; below.
+</p>
+<h1>Jumping Right In</h1>
+<h1>OptionParser Usage</h1>
+<p>
+The OptionParser
+library consists of three classes, <tt>Option</tt>, <tt>OptionParser</tt> and
+<tt>OptionData</tt>. For each option an <tt>Option</tt> object is created.
+When you are ready to prepare for command line parsing, these options are
+collected into an array and fed to <tt>OptionParser</tt>.
+This <tt>OptionParser</tt>
+object controls the type of option scheme that is implemented. When it
+comes time to parse a command line, call the method <tt>Option#parse</tt>.
+This will parse any array, but parses ARGV by default. The result is an
+<tt>OptionData</tt> object. This object can be used from which to extract
+values or it can be passed to another class as a fully encapsulated data
+object.
+</p>
+<h2>Getting Started</h2>
+<h3>Installing</h3>
+<pre>
+  gem install -r OptionParser
+</pre>
+<h3>Loading the library</h3>
+<pre>
+  require 'rubygems'
+  require 'commandline/optionparser'
+  include CommandLine
+</pre>
+<h3>Using Option Parser</h3>
+<p>
+An option is created with the following syntax:
+</p>
+<pre>
+  opt = Option.new([options], &lt;properties&gt;)
+</pre>
+<p>
+The options can be <tt>:flag</tt> or <tt>:posix</tt>. <tt>:flag</tt> means
+that the option is a mode flag and does not take any arguments.
+<tt>:posix</tt> means that <tt>Option</tt> will validate the properties to
+ensure they are posix compliant.
+</p>
+<p>
+An option object has six properties. Four of these properties define
+attributes of the object. The last two define <em>actions</em> that are
+taken when a command line is parsed.
+</p>
+<ol>
+<li>:names
+
+</li>
+<li>:arg_arity
+
+</li>
+<li>:opt_description
+
+</li>
+<li>:arg_description
+
+</li>
+<li>:opt_found
+
+</li>
+<li>:opt_not_found
+
+</li>
+</ol>
+<p>
+It is not necessary to set values for all of these properties. Some are set
+automatically, as we&#8217;ll see below.
+</p>
+<h3>Posix</h3>
+<p>
+The default <tt>Option</tt> object is non-posix.
+</p>
+<pre>
+    op1  = OptionParser.new(:posix, opts)
+    op2  = OptionParser.new(opts)
+    op1.posix  #=&gt; true
+    op2.posix  #=&gt; false
+</pre>
+<h3>Mode-Flag</h3>
+<p>
+To create a mode flag, that is, an option that is either true or false
+depending if it is seen on the command line or not, we could write:
+</p>
+<pre>
+  opt_debug = Option.new(
+    :names           =&gt; %w(--debug -d),       # the flag has two names
+    :arg_arity       =&gt; [0,0],                # this says take no arugments
+    :opt_description =&gt; &quot;Sets debug to true&quot;,
+    :arg_description =&gt; &quot;&quot;,
+    :opt_found       =&gt; true,                 # true if seen on command line
+    :opt_not_found   =&gt; false                 # false if not seen on command line
+  )
+</pre>
+<p>
+Now, this is a lot of work just for a common mode-flag. However, there is a
+shorter way:
+</p>
+<pre>
+  opt = Option.new(:flag, :names =&gt; %w(--debug -d))
+</pre>
+<p>
+When <tt>Option</tt> sees the :flag option, it makes some assignments
+behind the scenes and what you are left with is:
+</p>
+<pre>
+    :names           =&gt; [&quot;--debug&quot;, &quot;-d&quot;]
+    :arg_arity       =&gt; [0, 0]
+    :opt_description =&gt; &quot;Sets debug to true.&quot;  # debug is taken from the first name
+    :arg_description =&gt; &quot;&quot;
+    :opt_found       =&gt; true
+    :opt_not_found   =&gt; false
+</pre>
+<p>
+For a common option like a mode-flag, <tt>Option</tt> will use the first
+option &#8216;word&#8217; it finds in the :names list and use that in the
+automatic option text. Of course, if you don&#8217;t want any text, just
+set the option description to an empty string:
+</p>
+<pre>
+  :opt_description =&gt; &quot;&quot;.
+</pre>
+<h3>Option Arguments</h3>
+<p>
+If an option is not a mode flag, then it takes arguments. Most option
+parsers only permit a single argument per option flag. If your application
+needs multiple arguments, the standard method is just to repeat the option
+multiple times, once for each required argument. For example, if I need to
+pass two files to an application I would need something like:
+</p>
+<pre>
+  myapp -f file1 -f file2
+</pre>
+<p>
+But, it would be cleaner if the command line could be expressed as:
+</p>
+<pre>
+  myapp -f file1 file2
+</pre>
+<p>
+Well, no longer do you have to suffer with thirty-year old option parser
+technology. <tt>OptionParser</tt>
+permits multiple arguments per option flag and the number of arguments can
+be defined to be variable.
+</p>
+<p>
+To define an option that takes 1 or more arguments, the following can be
+done:
+</p>
+<pre>
+  opt = Option.new(:names =&gt; &quot;--file&quot;, :arg_arity =&gt; [1,-1])
+</pre>
+<p>
+Let&#8217;s say the option required at least two arguments, but not more
+than five. This is defined with:
+</p>
+<pre>
+  opt = Option.new(:names =&gt; &quot;--file&quot;, :arg_arity =&gt; [2,5])
+  OptionParser.new(opt).parse
+
+  % myapp --file file1                    # exception raised
+  % myapp --file file1 file2              # ok
+  % myapp --file file1 file2 file3        # ok
+  % myapp --file f1 f2 f3 f4 f5 f6        # f6 remains on the command line
+</pre>
+<p>
+This ability is handy on occassions where an option argument is
+&#8216;optional&#8217;.
+</p>
+<pre>
+  myapp --custom                 # no args, uses $HOME/.myapprc
+  myapp --custom my_custom_file  # uses my_custom_file
+</pre>
+<p>
+This type of option is defined by:
+</p>
+<pre>
+  opt = Option.new(:names =&gt; &quot;--custom&quot;, :arg_arity =&gt; [0,1])
+</pre>
+<p>
+If the <tt>:arg_arity</tt> is not satisfied, an exception is raised.
+</p>
+<h3>Actions</h3>
+<p>
+The option properties <tt>:opt_found</tt> and <tt>:opt_not_found</tt> are
+the source of the value returned for an option when it is parsed. These
+properties can be either an object or a proc/lambda. If they are an object,
+then the stored object is simply returned. If they are lambdas, then the
+stored value is the return value of the proc/lambda. So, the following will
+have the same result:
+</p>
+<pre>
+  opt_debug = Option.new(:flag
+    :names           =&gt; %w(--debug -d),
+    :opt_found       =&gt; true,
+    :opt_not_found   =&gt; false
+  )
+
+  opt_debug = Option.new(:flag
+    :names           =&gt; %w(--debug -d),
+    :opt_found       =&gt; lambda { true },
+    :opt_not_found   =&gt; lambda { false }
+  )
+</pre>
+<p>
+Notice that there is no need to set an instance variable to a default
+value. Normally one does:
+</p>
+<pre>
+  @debug = false
+  # option setup
+  ... parse the commandline
+  @debug = true if parse_results[&quot;--debug&quot;]
+</pre>
+<p>
+But with <tt>OptionParser</tt>, one
+has the capability of doing the following:
+</p>
+<pre>
+  opt_debug = Option.new(:flag, :names =&gt; %w(--debug -d))
+  ... parse the commandline
+  @debug = option_data[:debug]  # value is set without need for default
+
+  # or
+
+  opt_debug = Option.new(:flag
+    :names           =&gt; %w(--debug -d),
+    :opt_found       =&gt; lambda { @debug = true },
+    :opt_not_found   =&gt; lambda { @debug = false }
+  )
+  # do nothing, variable already set.
+</pre>
+<p>
+I find this much easier to manage than having to worry about setting
+default behaviour. Now that we know how to create options, let&#8217;s move
+on to the commandline parser.
+</p>
+<h2>OptionParser</h2>
+<p>
+Once the options are defined, we load them into an <tt>OptionParser</tt> and
+parse the command line. The syntax for creating an <tt>OptionParser</tt>
+object is:
+</p>
+<pre>
+  OptionParser.new(prop_flags, option)
+  OptionParser.new(prop_flags, [options])
+  OptionParser.new(option)
+  OptionParser.new([options])
+</pre>
+<p>
+where the possible property flags are:
+</p>
+<pre>
+  :posix
+  :unknown_options_action =&gt; :collect | :ignore | :raise
+</pre>
+<p>
+If you want to parse posix, you must specify so. <tt>OptionParser</tt> will
+not assume posix mode just because all of the options are posix options.
+This allows you to use posix only options but not require the strict
+parsing rules.
+</p>
+<p>
+Below are a few examples of creating an <tt>OptionParser</tt>
+object:
+</p>
+<pre>
+  opt = Option.new(:flag, :names =&gt; %w(-h))
+  op1 = OptionParser.new(:posix, opt)
+  op2 = OptionParser.new(opt)
+</pre>
+<p>
+or
+</p>
+<pre>
+  opts = []
+  opts &lt;&lt; Option.new(:flag, :names =&gt; %w(--help h))
+  opts &lt;&lt; Option.new(:flag, :names =&gt; %w(--debug d))
+</pre>
+<p>
+Options may be added to an <tt>OptionParser</tt> by
+three different methods:
+</p>
+<pre>
+  # Options added as arguments during OptionParser construction
+  op = OptionParser.new(opt1, opt2)
+  op = OptionParser.new([opt1, opt2])
+</pre>
+<p>
+or
+</p>
+<pre>
+  # Options added in a block constructor
+  op = OptionParser.new { |o| o &lt;&lt; opts }
+</pre>
+<p>
+or
+</p>
+<pre>
+  # Options added to an existing OptionParser object
+  op  = OptionParser.new
+  op &lt;&lt; opts
+</pre>
+<h3>Parsing the Command Line</h3>
+<p>
+Parsing the command line is as simple as calling <tt>#parse</tt>:
+</p>
+<pre>
+  option_data = op.parse
+</pre>
+<h3>Printing an Option Summary</h3>
+<p>
+A <tt>OptionParser</tt> with
+a complete set of options added to it defines the human interface that your
+application presents to a user. Therefore, the parser should be able to
+provide a nicely formatted summary for the user.
+</p>
+<p>
+An example is shown below with its corresponding output:
+</p>
+<pre>
+  require 'rubygems'
+  require 'commandline/optionparser'
+  include CommandLine
+  puts OptionParser.new { |o|
+    o &lt;&lt; Option.new(:flag, :names =&gt; %w[--debug -d])
+    o &lt;&lt; Option.new(:flag, :names =&gt; %w[--help  -h],
+              :opt_description =&gt; &quot;Prints this page.&quot;)
+    o &lt;&lt; Option.new(:names =&gt; %w[--ouput -o],
+              :opt_description =&gt; &quot;Defines the output file.&quot;,
+              :arg_description =&gt; &quot;output_file&quot;)
+    o &lt;&lt; Option.new(:names =&gt; %w[--a-long-opt --with-many-names -a -A],
+              :arg_arity =&gt; [2,-1],
+              :opt_description =&gt; &quot;Your really long description here.&quot;,
+              :arg_description =&gt; &quot;file1 file2 [file3 ...]&quot;)
+  }.to_s
+</pre>
+<p>
+Generates the output:
+</p>
+<pre>
+  OPTIONS
+
+      --debug,-d
+          Sets debug to true.
+
+      --help,-h
+          Prints this page.
+
+      --ouput,-o output_file
+          Defines the output file.
+
+      --a-long-opt,--with-many-names,-a,-A file1 file2 [file3 ...]
+          Your really long description here.
+</pre>
+<h2>Option Data</h2>
+<p>
+The <tt>OptionData</tt> is the return value of <tt>OptionParser#parse</tt>.
+The parsing results for each option are accessed with the bracket notation
+#[].
+</p>
+<pre>
+  opt = Option.new(:posix,
+                   :names =&gt; %w(-r),
+                   :opt_found =&gt; OptionParser::GET_ARGS)
+  od = OptionParser.new(:posix, opt).parse([&quot;-rubygems&quot;])
+  od[&quot;-r&quot;] #=&gt; &quot;ubygems&quot;
+
+  od = OptionParser.new(:posix, opt).parse([&quot;-r&quot;, &quot;ubygems&quot;])
+  od[&quot;-r&quot;] #=&gt; &quot;ubygems&quot;
+</pre>
+<p>
+<tt>OptionData</tt> behaves similar to a hash object in that the parsed
+option data is accessed with #[] where the key is the first item in the
+:names array of each option. An option cannot access its parsed values
+using just any of its names.
+</p>
+<pre>
+  od = OptionParser.new { |o|
+    o &lt;&lt; Option.new(:flag, :names =&gt; %w(--valid --notvalid))
+    o &lt;&lt; Option.new(:flag, :names =&gt; %w(--first --second))
+  }.parse(%w(--notvalid --second))
+  od[&quot;--valid&quot;]    #=&gt; true
+  od[&quot;--first&quot;]    #=&gt; true
+  od[&quot;--notvalid&quot;] #=&gt; CommandLine::OptionData::UnknownOptionError
+  od[&quot;--second&quot;]   #=&gt; CommandLine::OptionData::UnknownOptionError
+</pre>
+<h3>Built-in Data Handlers</h3>
+<p>
+OptionParser has
+built-in data handlers for handling common scenarios. These lambdas can
+save a lot of typing.
+</p>
+<h3>GET_ARG_ARRAY</h3>
+<p>
+This is useful for options that take a variable number of arguments. It
+returns all the arguments in an array.
+</p>
+<pre>
+  # GET_ARG_ARRAY returns all arguments in an array, even if no
+  # arguments are present. This is not to be confused with the option
+  # occuring multiple times on the command line.
+  opt = Option.new(:names          =&gt; %w(--file),
+                   :argument_arity =&gt; [0,-1],
+                   :opt_found      =&gt; OptionParser::GET_ARG_ARRAY)
+                   #:opt_found      =&gt; :collect)  # would this be better?
+  od  = OptionParser.new(opt).parse(%w(--file))
+  od[&quot;--file&quot;]    #=&gt; []
+  od  = OptionParser.new(opt).parse(%w(--file=file))
+  od[&quot;--file&quot;]    #=&gt; [&quot;file&quot;]
+  od  = OptionParser.new(opt).parse(%w(--file=file1 --file file2))
+  od[&quot;--file&quot;]    #=&gt; [&quot;file2&quot;]
+  od  = OptionParser.new(opt).parse(%w(--file=file1 file2))
+  od[&quot;--file&quot;]    #=&gt; [&quot;file1&quot;, &quot;file2&quot;]
+  od  = OptionParser.new(opt).parse(%w(--file file1 file2))
+  od[&quot;--file&quot;]    #=&gt; [&quot;file1&quot;, &quot;file2&quot;]
+</pre>
+<h3>GET_ARGS</h3>
+<p>
+This is a &#8216;smart&#8217; option getter. If no arguments are found, it
+returns true. If a single argument is found, it returns that argument. If
+more than one argument is found, it returns an array of those arguments.
+</p>
+<pre>
+  opt = Option.new(:names          =&gt; %w(--file),
+                   :argument_arity =&gt; [0,-1],
+                   :opt_found      =&gt; OptionParser::GET_ARGS)
+                   #:opt_found      =&gt; :smart_collect)  # would this be better?
+  od  = OptionParser.new(opt).parse(%w(--file))
+  od[&quot;--file&quot;]    #=&gt; true
+  od  = OptionParser.new(opt).parse(%w(--file=file))
+  od[&quot;--file&quot;]    #=&gt; &quot;file&quot;
+  od  = OptionParser.new(opt).parse(%w(--file=file1 --file file2))
+  od[&quot;--file&quot;]    #=&gt; &quot;file2&quot;
+  od  = OptionParser.new(opt).parse(%w(--file=file1 file2))
+  od[&quot;--file&quot;]    #=&gt; [&quot;file1&quot;, &quot;file2&quot;]
+  od  = OptionParser.new(opt).parse(%w(--file file1 file2))
+  od[&quot;--file&quot;]    #=&gt; [&quot;file1&quot;, &quot;file2&quot;]
+</pre>
+<p>
+And, for those oxymoronic non-optional options:
+</p>
+<pre>
+  opt = Option.new(:names =&gt; %w(--not-really-an-option),
+    :opt_not_found =&gt; OptionParser::OPT_NOT_FOUND_BUT_REQUIRED
+  )
+  OptionParser.new(opt).parse([])   #=&gt; OptionParser::MissingRequiredOptionError
+</pre>
+<h3><tt>OptionData</tt></h3>
+<p>
+We have just shown that after parsing a command line, the result of each
+option is found from OptionData. The values that remain on the command line
+are assigned to <tt>args</tt>. Other attributes of <tt>OptionData</tt> are:
+</p>
+<pre>
+  od.argv             # the original command line
+  od.unknown_options  # If OptionParser was told to :collect unknown options
+  od.args             # arguments not claimed by any option
+  od.not_parsed       # arguments following a '--' on the command line
+  od.cmd              # not yet implemented - but a cvs like command
+</pre>
+<hr size="2"></hr><h1>Traditional Option Parsing Schemes</h1>
+<p>
+This section is a brief overview of traditional command line parsing.
+</p>
+<p>
+Command line options traditionally occur in three flavors:
+</p>
+<ul>
+<li><em>Unix</em> (or POSIX.2)
+
+</li>
+<li><em>Gnu</em>
+
+</li>
+<li><em>X Toolkit</em>
+
+</li>
+</ul>
+<p>
+Below is a summary of these schemes. <em>(Note: I did not invent these
+traditional parsing conventions. Most of the information contained below
+was pulled from internet resources and I have quoted these resources where
+possible.)</em>
+</p>
+<h2>Unix Style (POSIX)</h2>
+<p>
+The Unix style command line options are a single character preceded by a
+single dash (hyphen character). In general, lowercase options are preferred
+with their uppercase counterparts being the special case variant.
+</p>
+<h3>Mode Flag</h3>
+<p>
+If an option does not take an argument, then it is a mode-flag.
+</p>
+<h3>Optional Separation Between the Option Flag and Its Argument</h3>
+<p>
+If the option takes an argument, the argument follows it with optional
+white space separating the two. For example, the following forms are both
+valid:
+</p>
+<pre>
+  sort -k 5
+  sort -k5
+</pre>
+<h3>Grouping</h3>
+<p>
+A mode-flag can be grouped together with other mode-flags behind a single
+dash. For example:
+</p>
+<pre>
+  tar -c -v -f
+</pre>
+<p>
+is equivalent to:
+</p>
+<pre>
+  tar -cvf
+</pre>
+<p>
+If grouping is done, the last option in a group can be an option that takes
+an argument. For example
+</p>
+<pre>
+  sort -r -n -k 5
+</pre>
+<p>
+can be written as
+</p>
+<pre>
+  sort -rnk 5
+</pre>
+<p>
+but not
+</p>
+<pre>
+  sort -rkn 5
+</pre>
+<p>
+because the &#8216;5&#8217; argument belongs to the &#8216;k&#8217; option
+flag.
+</p>
+<h3>Option Parsing Termination</h3>
+<p>
+It is convention that a double hyphen is a signal to stop option
+interpretation and to read the remaining statements on the command line
+literally. So, a command such as:
+</p>
+<pre>
+ app -- -x -y -z
+</pre>
+<p>
+will not &#8216;see&#8217; the three mode-flags. Instead, they will be
+treated as arguments to the application:
+</p>
+<pre>
+ #args = [&quot;-x&quot;, &quot;-y&quot;, &quot;-z&quot;]
+</pre>
+<h3>POSIX Summary</h3>
+<ol>
+<li>An option is a hyphen followed by a single alphanumeric character.
+
+</li>
+<li>An option may require an argument which must follow the option with an
+optional space in between.
+
+<pre>
+  -r ubygems
+  -rubygems
+  -r=ubygems   # not ok. '=' is Gnu style
+</pre>
+</li>
+<li>Options that do not require arguments can be grouped after a hyphen.
+
+</li>
+<li>Options can appear in any order.
+
+</li>
+<li>Options can appear multiple times.
+
+</li>
+<li>Options precede other nonoption arguments. TODO: Test for this
+
+</li>
+<li>The &#8212; argument terminates options.
+
+</li>
+<li>The - option is used to represent the standard input stream.
+
+</li>
+</ol>
+<h3>References</h3>
+<p>
+<a
+href="http://www.mkssoftware.com/docs/man1/getopts.1.asp">www.mkssoftware.com/docs/man1/getopts.1.asp</a>
+</p>
+<h2>Gnu Style</h2>
+<p>
+The Gnu style command line options provide support for option words (or
+keywords), yet still maintain compatibility with the Unix style options.
+The options in this style are sometimes referred to as
+<em>long_options</em> and the Unix style options as <em>short_options</em>.
+The compatibility is maintained by preceding the <em>long_options</em> with
+two dashes. The option word must be two or more characters.
+</p>
+<h3>Separation Between the Option Flag and Its Argument</h3>
+<p>
+Gnu style options cannot be grouped. For options that have an argument, the
+argument follows the option with either whitespace or an &#8217;=&#8217;.
+For example, the following are equivalent:
+</p>
+<pre>
+  app --with-optimizer yes
+  app --with-optimizer=yes
+</pre>
+<h3>Option Parsing Termination</h3>
+<p>
+Similar to the <em>Unix</em> style double-hyphen &#8217;- -&#8217;, the
+<em>Gnu</em> style has a triple-hyphen &#8217;- - -&#8217; to signal that
+option parsing be halted and to treat the remaining text as arguments (that
+is, read literally from the command line)
+</p>
+<pre>
+ app --- -x -y -z
+ args = [&quot;-x&quot;, &quot;-y&quot;, &quot;-z&quot;]
+</pre>
+<h3>Mixing <em>Gnu</em> and <em>Unix</em> Styles</h3>
+<p>
+The <em>Gnu</em> and the <em>Unix</em> option types can be mixed on the
+same commandline. The following are equivalent:
+</p>
+<pre>
+  app -a -b --with-c
+  app -ab --with-c
+  app -ba --with-c
+  app --with-c -ab
+</pre>
+<h2>X Toolkit Style</h2>
+<p>
+The X Toolkit style uses the single hyphen followed by a keyword option.
+This style is not compatible with the <em>Unix</em> or the <em>Gnu</em>
+option types. In most situations this is OK since these options will be
+filtered from the command line before passing them to an application.
+</p>
+<h3>&#8217;-&#8217; and STDIN</h3>
+<p>
+It is convention that a bare hypen indicates to read from stdin.
+</p>
+<h2>The OptionParser Style</h2>
+<p>
+The CommandLine::OptionParser does not
+care what style you use. It is designed for maximum flexiblity so it may be
+used within any organiziation to meet their standards.
+</p>
+<h3>Multiple Option Names</h3>
+<p> OptionParser does
+not place restrictions on the number of options. The only restriction is
+that an option name begin with a hyphen &#8217;-&#8217;. A definitely
+conjured example of this freedom is:
+</p>
+<pre>
+  :names =&gt; %w(
+    --file --File --f --F -file -File -f -F
+  )
+</pre>
+<h3>Prefix Matching</h3>
+<p>
+Although not encouraged, some prefer the ability to truncate option words
+to their first unique match. For example, an application that support this
+style and accepts the following two option words:
+</p>
+<pre>
+ [&quot;--foos&quot;, &quot;--fbars&quot;]
+</pre>
+<p>
+will accept any of the following as valid options
+</p>
+<pre>
+  app --fo
+  app --foo
+  app --foos
+</pre>
+<p>
+for the &quot;&#8212;foos&quot; option flag since it can be determined that
+&quot;&#8212;fo&quot; will only match &quot;&#8212;foos&quot; and not
+&quot;&#8212;fbars&quot;.
+</p>
+<h3>Repeated Arguments</h3>
+<p>
+A common question is how an option parser should respond when an option is
+specified on the command line multiple times. This is true for mode flags,
+but especially true for options that require an argument, For example, what
+should happen when the following is given:
+</p>
+<pre>
+  app -f file1 -f file2
+</pre>
+<p>
+Should the parser flag this as an error or should it accept both arguments.
+</p>
+<p> OptionParser gives
+you the choice of whether it raises an exception when an option is seen
+more than once, or it just passes the data onto the user.
+</p>
+<p>
+How the data is handled is up to the user, but it typically boils down to
+either Append, Replace or Raise. This is described in more detail in the
+usage section.
+</p>
+<h2>CVS Mode</h2>
+<p>
+CVS is a common application with a unique command line structure. The cvs
+application commandline can be given options, but requires a command. This
+command can also be given options. This means that there are two sets of
+options, one set for the cvs application and one set for the cvs-command.
+Some example formats are:
+</p>
+<pre>
+  cvs [cvs-options]
+  cvs [cvs-options] command [command-options-and-arguments]
+
+  cvs -r update
+  cvs -r update .
+  cvs edit -p file
+</pre>
+<p>
+To handle this, the first unclaimed argument is treated as a command and
+the options and option-arguments that follow belong to that command. More
+on how this is handled in the usage section.
+</p>
+<h2>Option Grouping</h2>
+<p>
+A conflict can occur where a grouping of single letter Unix options has the
+value as a word option preceded by a single dash. For this reason, it is
+customary to use the double-dash notation for word options. Unless
+double-dashes are enforced for word options, OptionParser will
+check for possible name conflicts and raise an exception if it finds one.
+</p>
+
+</td></tr>
+</table>
+</table>
+</body>
+</html>

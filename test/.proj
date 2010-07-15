@@ -1,0 +1,48 @@
+#!/bin/sh
+
+$MYEDITOR \
+  .proj \
+  ../CHANGELOG \
+  ../INSTALL \
+  ../LICENSE \
+  ../MANIFEST \
+  ../README \
+  ../TODO \
+  ../docs/posted-docs.index.html \
+  ../lib/commandline.rb \
+  ../lib/test/unit/systemtest.rb \
+  ../lib/commandline/application.rb \
+  ../lib/commandline/utils.rb \
+  ../lib/commandline/optionparser.rb \
+  ../lib/commandline/optionparser/option.rb \
+  ../lib/commandline/optionparser/optiondata.rb \
+  ../lib/commandline/optionparser/optionparser.rb \
+  ../lib/commandline/text/format.rb \
+  ../pkg/optionparser.gem \
+  ../scratch/.re.swp \
+  ../scratch/argv \
+  ../scratch/meth \
+  ../scratch/attr \
+  ../scratch/re \
+  ../scratch/alias \
+  ../scratch/init \
+  ../scratch/init2 \
+  ../scratch/proc \
+  data/app1.rb \
+  data/app2.rb \
+  data/app3.rb \
+  data/app4.rb \
+  data/app5.rb \
+  data/app6.rb \
+  data/app7.rb \
+  data/app8.rb \
+  data/app9.rb \
+  data/app10.rb \
+  data/app11.rb \
+  data/app12.rb \
+  data/eapp1.rb \
+  tc_application.rb \
+  tc_option.rb \
+  tc_optiondata.rb \
+  tc_optionparser.rb \
+  testall.rb

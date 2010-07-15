@@ -1,0 +1,18 @@
+
+class Base
+  def main_caller
+    main
+  end
+  def main
+    puts "main in B"
+  end
+end
+
+
+class A < Base
+  def main
+    puts "main in A"
+  end
+end
+
+A.new.main_caller

@@ -1,0 +1,61 @@
+Loaded suite ./testall
+Started
+Exception `Test::Unit::AssertionFailedError' at /opt/local/ruby-1.8.2/lib/ruby/1.8/test/unit/assertions.rb:30 - Failed with arg after -d flag.
+<["r9t-3r.csv"]> expected but was
+<[]>.
+F.Exception `CommandLine::Option::InvalidArgumentArityError' at ./../lib/commandline/optionparser/option.rb:160 - Minimum argument arity '-1' must be greater than or equal to 0.
+Exception `CommandLine::Option::InvalidArgumentArityError' at ./../lib/commandline/optionparser/option.rb:164 - Maximum argument arity '0' must be greater than minimum arity '1'.
+Exception `CommandLine::Option::InvalidArgumentArityError' at ./../lib/commandline/optionparser/option.rb:164 - Maximum argument arity '3' must be greater than minimum arity '4'.
+Exception `CommandLine::Option::InvalidArgumentArityError' at ./../lib/commandline/optionparser/option.rb:162 - Maximum argument arity '-3' must be greater than or equal to -1.
+.Exception `CommandLine::Option::InvalidOptionNameError' at ./../lib/commandline/optionparser/option.rb:151 - Option name 'name' is invalid.
+.Exception `TypeError' at ./../lib/commandline/optionparser/optiondata.rb:39 - no marshal_dump is defined for class Proc
+Exception `CommandLine::OptionParser::MissingRequiredOptionArgumentError' at ./../lib/commandline/optionparser/optionparser.rb:283 - Insufficient arguments []for option '-f' with :arity [1, -1]
+.Exception `CommandLine::OptionParser::MissingRequiredOptionArgumentError' at ./../lib/commandline/optionparser/optionparser.rb:283 - Insufficient arguments ["file"]for option '-f1' with :arity [3, 4]
+Exception `CommandLine::OptionParser::MissingRequiredOptionArgumentError' at ./../lib/commandline/optionparser/optionparser.rb:283 - Insufficient arguments ["file", "file"]for option '-f1' with :arity [3, 4]
+Exception `Test::Unit::AssertionFailedError' at /opt/local/ruby-1.8.2/lib/ruby/1.8/test/unit/assertions.rb:30 - <["ugh"]> expected but was
+<[]>.
+FException `CommandLine::Option::InvalidOptionNameError' at ./../lib/commandline/optionparser/option.rb:151 - Option name 'name' is invalid.
+Exception `CommandLine::Option::InvalidOptionNameError' at ./../lib/commandline/optionparser/option.rb:151 - Option name 'f' is invalid.
+.Exception `CommandLine::OptionParser::PosixMismatchError' at ./../lib/commandline/optionparser/optionparser.rb:128 - Posix types do not match. #<CommandLine::Option:0x3c0ad4 @properties={:arity=>[0, 0], :opt_not_found=>false, :names=>["-help"], :opt_description=>"", :arg_description=>"", :opt_found=>true}, @posix=false, @flag=true>
+....Exception `LoadError' at /opt/local/ruby-1.8.2/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:18 - No such file to load -- text/format
+...Exception `CommandLine::OptionParser::DuplicateOptionNameError' at ./../lib/commandline/optionparser/optionparser.rb:178 - Duplicate option name '--help'.
+.Exception `CommandLine::OptionParser::DuplicateOptionNameError' at ./../lib/commandline/optionparser/optionparser.rb:178 - Duplicate option name '-h'.
+..Exception `CommandLine::Option::MissingPropertyError' at ./../lib/commandline/optionparser/option.rb:68 - No properties specified for new CommandLine::Option.
+......Exception `CommandLine::OptionData::UnknownOptionError' at ./../lib/commandline/optionparser/optiondata.rb:55 - Unknown option '-h'.
+Exception `CommandLine::OptionData::UnknownOptionError' at ./../lib/commandline/optionparser/optiondata.rb:55 - Unknown option '-h'.
+..Exception `CommandLine::Option::InvalidPropertyError' at ./../lib/commandline/optionparser/option.rb:76 - Unknown option setting '--verbose-v'.
+....Exception `Test::Unit::AssertionFailedError' at /opt/local/ruby-1.8.2/lib/ruby/1.8/test/unit/assertions.rb:30 - <["file3"]> expected but was
+<[]>.
+F..Exception `CommandLine::OptionParser::UnknownOptionError' at ./../lib/commandline/optionparser/optionparser.rb:255 - Unknown option '-ffile' in ["-f"].
+.Exception `CommandLine::OptionData::UnknownOptionError' at ./../lib/commandline/optionparser/optiondata.rb:55 - Unknown option '-h'.
+..#<CommandLine::OptionData:0x3a610 @cmd=nil, @not_parsed=[], @argv=["--name", "fred"], @opts={"--name"=>true}, @args=[], @unknown_options=[]>
+../^-([help]+)()(.*)$/
+Tagged:[[:opt, "-l"], [:opt, "-e"], [:opt, "-l"], [:opt, "-p"], [:opt, "-h"]]
+.../^-()([r])(.*)$/
+Tagged:[[:opt, "-r"], [:arg, "ubygems"]]
+/^-()([r])(.*)$/
+Tagged:[[:opt, "-r"], [:arg, "ubygems"]]
+.Exception `CommandLine::OptionParser::MissingRequiredOptionError' at ./../lib/commandline/optionparser/optionparser.rb:34 - Missing required parameter '-t2'.
+.Exception `CommandLine::OptionParser::MissingRequiredOptionError' at ./../lib/commandline/optionparser/optionparser.rb:34 - Missing required parameter '--opt'.
+Exception `CommandLine::OptionParser::MissingRequiredOptionError' at ./../lib/commandline/optionparser/optionparser.rb:34 - Missing required parameter '--opt'.
+...Exception `CommandLine::OptionParser::UnknownOptionError' at ./../lib/commandline/optionparser/optionparser.rb:255 - Unknown option '-file' in ["-h", "--help"].
+..
+Finished in 0.809227 seconds.
+
+  1) Failure:
+test_arity_0(TC_OptionParser) [./tc_optionparser.rb:936]:
+Failed with arg after -d flag.
+<["r9t-3r.csv"]> expected but was
+<[]>.
+
+  2) Failure:
+test_bad_option_2(TC_OptionParser) [./tc_optionparser.rb:507]:
+<["ugh"]> expected but was
+<[]>.
+
+  3) Failure:
+test_multiple(TC_OptionParser) [./tc_optionparser.rb:334]:
+<["file3"]> expected but was
+<[]>.
+
+47 tests, 186 assertions, 3 failures, 0 errors

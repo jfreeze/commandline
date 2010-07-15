@@ -1,0 +1,167 @@
+CommandLine-0.7.10
+==================
+Author: Jim Freeze
+
+WHAT
+====
+This is a quick update to CommandLine. The following changes were
+made to OptionData and Application:
+- Changed #opt to return @option_data
+- OptionData objects now can respond to methods as well as []
+
+Basically, this lets you access option data with a method call
+as well as #[]. Since method names cannot start with a dash,
+some may like and this some may not. I am curious about your opinions.
+
+DOCS
+==== 
+	http://rubyforge.org/docman/view.php/632/233/posted-docs.index.html
+
+ABOUT
+=====
+CommandLine is a library that greatly simplifies the repetitive process of building a command line user interface for your applications. It's 'ruby-like' usage style streamlines application development so that even applications with numerous configuration options can be quickly put together. CommandLine automatically builds friendly usage and help screens that are nicely formatted for the user. No longer is starting an application a pain where you have to copy boiler plate code (or a previous application) and retype repetitive code to get an application started
+
+EXAMPLE
+=======
+ 
+  % cat app.rb 
+  #---------------------------------------------------
+  #!/usr/bin/env ruby
+
+  require 'rubygems'
+  require 'commandline'
+
+  class App < CommandLine::Application
+
+    def initialize
+      version           "0.0.1"
+      author            "Author Name"
+      copyright         "2005, Jim Freeze"
+      short_description "A simple app example that takes two arguments."
+      long_description  "This app is a simple application example that "+
+                        "supports three options and two commandline "+
+                        "arguments."
+
+      option :debug, :arity => [0,1], 
+				 :arg_description => "debug_level",
+             :opt_description => "Set debug level from 0 to 9.",
+				 :opt_found => get_args
+      option :version, :help
+
+      expected_args :param_file, :out_file
+    end
+
+    def main
+		#... code here
+    end
+  end#class App
+  #---------------------------------------------------
+
+  % app.rb -h
+  NAME
+
+      app.rb - A simple app example that takes two arguments.
+
+  DESCRIPTION
+
+      This app is a simple application example that supports three
+      options and two commandline arguments.
+
+  OPTIONS
+
+      --debug,-d debug_level
+          Set debug level from 0 to 9.
+
+      --version,-v
+          Displays application version.
+
+      --help,-h
+          Displays help page.
+
+  AUTHOR:  Author Name
+  Copyright (c) 2005, Jim Freeze
+
+TESTS
+=====
+Tests: 82
+Assertions: 319
+
+
+DOWNLOAD & INSTALLATION
+=======================
+
+Homepage:      http://rubyforge.org/projects/optionparser/
+Documentation: http://rubyforge.org/docman/view.php/632/232/posted-docs.index.html
+Download:      http://rubyforge.org/frs/?group_id=632&release_id=2345
+
+Dependencies:
+* None
+
+Currently CommandLine is only available as a rubygem.
+
+Via RubyGems 
+  $ gem install -r commandline
+
+All feedback is appreciated!
+
+Installations not yet available
+===============================
+# not in RPA yet
+Via RPA 
+  $ rpa install commandline
+  
+# this either
+The do-it-yourself way 
+  $ ruby setup.rb config
+  $ ruby setup.rb setup
+  $ ruby setup.rb install
+  
+# nor this
+The simplified do-it-yourself way 
+  $ rake install
+
+
+RELEASE NOTES
+=============
+== 0.7.10 11/06/2005
+- Changed opt() to return @option_data
+- OptionData objects now can respond to methods as well as []
+
+== 0.7.9  11/05/2005
+=== Additions
+- Renamed gem to lowercase commandline
+- Added replay command options
+- Added CommandLine::Application_wo_AutoRun - no auto run set thru at_exit
+- Added documentation for CommandLine::Application - instead of just README
+- Changed :arg_arity to :arity in Option
+- Add :required for use with :opt_found
+- Added args accessor for @args - suggested by Esteban Manchado Velázquez
+- Added opt() accessor for @option_data[]
+
+
+HISTORY
+=======
+After poking around in a few corporations, it was evident that
+option parsing was not well understood. Therefore, many inhouse
+tools were built that did not conform to any of the POSIX, Gnu or XTools
+option styles. CommandLine::OptionParser was developed so that
+new applications could be written that conformed to accepted standards,
+but non-standard option configurations could be handled as well
+to support legacy interfaces.
+
+Once the option parsing was written, there was a need to streamline
+the repetitive tasks in setting up an application. The original
+boilerplate was simple, but after taking a few cues from
+rails, a significant amount of functionality was added to
+Application that make it a very useful tool yet simple to use.
+
+More information and usage scenarios on OptionParser can be found at:
+    http://rubyforge.org/projects/optionparser/
+
+
+ACKNOWLEDGEMENTS
+================
+This library contains code from:
+* Austin Ziegler - Text::Format
+* Ara - open4.rb - obtained from codeforthepeople
+--

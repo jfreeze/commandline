@@ -1,0 +1,9 @@
+x = 1
+begin
+  raise "duh" if x == 1
+rescue
+  x -= 1
+  retry
+end
+
+p x

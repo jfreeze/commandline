@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+@i = 0
+puts "        h                  type"
+puts "      =========================="
+def m(type = nil, *h)
+  puts "-"*20
+  puts "No args" if type.nil?
+  printf("%-2d %-20s %-20s\n", @i+=1, h.inspect, type.inspect)
+end
+
+m(                :posix => true)
+m( :flag,         :posix => true)
+m( :flag, :opt2,  :posix => true)
+m([:flag, :opt2], :posix => true)
+m
+m( :flag)
+m( :flag, :opt2)
+m([:flag, :opt2])
+
+m( :flag, :opt2,  :posix => true, :other_props => false)
+m( :flag, :posix => true, :other_props => false)
+m( :name => %(--opt1 --opt2), :other_props => false)
+
+m( :flag, :posix, :other_props => [1,2])
+puts "*"*80
+
+def m2(*all)
+  puts "all:     #{all.inspect}"
+end
+
+#m2(:a => 1, :b => 2, :flag, :posix)
+m2(:flag, :posix, :a => 1, :b => 2)
+#m2(:flag, :a => 1, :posix, :b => 2)

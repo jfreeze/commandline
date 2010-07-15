@@ -1,0 +1,26 @@
+class Parent
+  def initialize
+    puts "parent initialize"
+    __child_initialize if self.class.private_instance_methods(false).include?("__child_initialize")
+  end
+
+  def self.run
+    if self.private_instance_methods(false).include?("initialize")
+      $VERBOSE, verbose = nil, $VERBOSE
+      self.class_eval {
+        alias :__child_initialize :initialize
+        remove_method :initialize
+      }
+      $VERBOSE = verbose
+    end
+    self.new
+  end
+end 
+
+class Child < Parent
+  def initialize
+    puts "child initialize"
+  end
+end
+
+Child.run

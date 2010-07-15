@@ -1,0 +1,28 @@
+$VERBOSE, verbose = false, $VERBOSE
+class Parent
+  def initialize
+    puts "parent initialize"
+    p self.class.private_instance_methods.sort
+    #child_initialize if 
+  end
+  def self.run
+    p self.name
+    p self.private_method_defined?(:initialize)
+    o = self.new
+  end
+
+end 
+
+class Child2 < Parent
+  def initialize; end
+  if private_instance_methods(false).include?("initialize")
+    alias :child_initialize :initialize
+    #undef initialize
+    remove_method initialize
+  end
+end
+
+Child2.run
+
+$VERBOSE = verbose
+

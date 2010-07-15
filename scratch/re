@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+def show_re(str)
+  re = /^-{1,2}[-_a-zA-Z0-9]+(=|\s+)?/
+  m =re.match(str)
+  p m.captures
+end
+
+

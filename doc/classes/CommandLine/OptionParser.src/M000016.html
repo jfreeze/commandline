@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>parse_posix_argv (CommandLine::OptionParser)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/commandline/optionparser.rb, line 446</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">parse_posix_argv</span>(<span class="ruby-identifier">argv</span>)
+    <span class="ruby-identifier">re</span> = <span class="ruby-ivar">@posix</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">get_posix_re</span> <span class="ruby-operator">:</span> <span class="ruby-constant">Option</span><span class="ruby-operator">::</span><span class="ruby-constant">GENERAL_OPT_EQ_ARG_RE</span>
+    <span class="ruby-identifier">p</span> <span class="ruby-identifier">re</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$DEBUG</span>
+    <span class="ruby-identifier">tagged</span> = []
+
+    <span class="ruby-comment cmt">#</span>
+    <span class="ruby-comment cmt"># A Posix command line must have all the options precede</span>
+    <span class="ruby-comment cmt"># non option arguments. For example</span>
+    <span class="ruby-comment cmt"># :names =&gt; -h -e -l -p -s</span>
+    <span class="ruby-comment cmt"># where -p can take an argument</span>
+    <span class="ruby-comment cmt"># Command line can read:</span>
+    <span class="ruby-comment cmt">#   -helps  =&gt; -h -e -l -p s</span>
+    <span class="ruby-comment cmt">#   -p fred non-opt-arg</span>
+    <span class="ruby-comment cmt">#   -p fred non-opt-arg -h   # not ok</span>
+    <span class="ruby-comment cmt">#   -he -popt-arg1 -popt-arg2 non-opt-arg</span>
+    <span class="ruby-comment cmt">#   -p=fred  # this is not legal?</span>
+    <span class="ruby-comment cmt">#   -pfred  === -p fred</span>
+    <span class="ruby-comment cmt">#</span>
+
+    <span class="ruby-comment cmt">#&quot;-helps&quot; &quot;-pfred&quot; &quot;-p&quot; &quot;fred&quot;</span>
+    <span class="ruby-comment cmt">#-h -e -l -p [s] -p [fred] -p [fred]</span>
+    <span class="ruby-comment cmt">#[-h, []], [-e []], [-l, []], [-p, [s]], -p</span>
+
+    <span class="ruby-identifier">argv</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> 
+      <span class="ruby-identifier">m</span> = <span class="ruby-identifier">re</span>.<span class="ruby-identifier">match</span>(<span class="ruby-identifier">e</span>)
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">m</span>.<span class="ruby-identifier">nil?</span>
+        <span class="ruby-identifier">tagged</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">:arg</span>, <span class="ruby-identifier">e</span>]
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;houston, we have a problem&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">m</span>.<span class="ruby-identifier">nil?</span>
+        <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">m</span>[<span class="ruby-value">1</span>].<span class="ruby-identifier">empty?</span>
+          <span class="ruby-identifier">m</span>[<span class="ruby-value">1</span>].<span class="ruby-identifier">split</span>(<span class="ruby-regexp re">//</span>).<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-identifier">tagged</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">:opt</span>, <span class="ruby-node">&quot;-#{e}&quot;</span>] }
+        <span class="ruby-keyword kw">end</span>
+
+        <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">m</span>[<span class="ruby-value">2</span>].<span class="ruby-identifier">empty?</span>
+          <span class="ruby-identifier">tagged</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">:opt</span>, <span class="ruby-node">&quot;-#{m[2]}&quot;</span>]
+          <span class="ruby-identifier">tagged</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">:arg</span>, <span class="ruby-identifier">m</span>[<span class="ruby-value">3</span>]] <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">m</span>[<span class="ruby-value">3</span>].<span class="ruby-identifier">empty?</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+    }
+
+<span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$DEBUG</span>
+  <span class="ruby-identifier">print</span> <span class="ruby-value str">&quot;Tagged:&quot;</span> 
+  <span class="ruby-identifier">p</span> <span class="ruby-identifier">tagged</span>
+<span class="ruby-keyword kw">end</span>
+    <span class="ruby-comment cmt">#</span>
+    <span class="ruby-comment cmt"># Now, combine any adjacent args such that</span>
+    <span class="ruby-comment cmt">#   [[:arg, &quot;arg1&quot;], [:arg, &quot;arg2&quot;]]</span>
+    <span class="ruby-comment cmt"># becomes</span>
+    <span class="ruby-comment cmt">#   [[:args, [&quot;arg1&quot;, &quot;arg2&quot;]]]</span>
+    <span class="ruby-comment cmt"># and the final result should be</span>
+    <span class="ruby-comment cmt">#   [ &quot;--file&quot;, [&quot;arg1&quot;, &quot;arg2&quot;]]</span>
+    <span class="ruby-comment cmt">#</span>
+
+    <span class="ruby-identifier">parsed</span> = []
+    <span class="ruby-ivar">@args</span>  = []
+    <span class="ruby-identifier">tagged</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">:opt</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">e</span>[<span class="ruby-value">0</span>]
+        <span class="ruby-identifier">parsed</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">e</span>[<span class="ruby-value">1</span>], []]
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-constant">Array</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">parsed</span>[<span class="ruby-value">-1</span>] 
+          <span class="ruby-identifier">parsed</span>[<span class="ruby-value">-1</span>][<span class="ruby-value">-1</span>] <span class="ruby-operator">+=</span> [<span class="ruby-identifier">e</span>[<span class="ruby-value">1</span>]]
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-ivar">@args</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">e</span>[<span class="ruby-value">1</span>]
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+    }
+    <span class="ruby-identifier">parsed</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-keyword kw">yield</span> <span class="ruby-identifier">e</span> }
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

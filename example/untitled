@@ -1,0 +1,83 @@
+Jun 30
+  CalibreRCX C65SOI
+Jul
+Aug 30
+
+
+Test Cases - C65SOI
+	3x3 BitCell Array w/rubix (C only) - in fd-design_dev
+	LPCC - all device types - prefers pcells to be used - 
+	StdCells - 
+	TxLines - 	combine into single cdl - r14546 (Craig Johnson)
+
+Albert Britvin - in Moscow
+BET - Back End Test
+1. Generate test cases
+2. run extraction
+3. simulation & compare
+
+
+
+
+
+
+
+
+
+Glen - tech sales manager 281-316 1603  houston
+robert stodd  tech  m 817 999 8080
+todd sheets   local sales 
+
+
+
+Sulivan guys
+Glen - tech sales manager 281-316 1603  houston
+robert stodd  tech  m 817 999 8080
+todd sheets   local sales 
+
+5th
+left - 
+3rd floor
+1717 
+
+(m) 577 3326
+
+365
+
+x - respond to costa rica guy
+x - find out about serius radio
+x - find what sendtext does
+x - get agi fully working
+. - get ragi running
+. - learn about monitor api
+make rubyagi vendor app for rails
+
+
+finish fetch script
+. confirm capgen script
+- setup capgen template
+- run technology requested by nabity
+. twiki - find out about img area
+- agi
+
+x - text message email
+x - ww19 weekly
+x - email pin
+x - virtualization; parallels
+x - eric petus - sw3d
+x - add twiki link to tx11ws106
+
+---- notes ----
+avery and mario are customers
+david kostusiak - about install of ruby
+
+
+
+x - move dev_tools to fs-dev_tools
+x - check in dev_tools
+x - get word back on twiki
+
+
+x - When freescale_init is finished, copy it to linux directory. (and hp?)
+x - Also, update GEM_PATH's in .cshrc_path
+

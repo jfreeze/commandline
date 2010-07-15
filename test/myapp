@@ -1,0 +1,13 @@
+require 'rubygems'
+require 'commandline'
+
+  class MyApp < CommandLine::Application
+      def initialize
+        synopsis "[-cq] [-s arg]"
+            option :names => %w(--size -s)
+                  option :verbose
+                        option :flag, :names => %w(--query -q)
+                              option :flag, :names => %w(--check --valid -c)
+                                  end
+                                    end
+

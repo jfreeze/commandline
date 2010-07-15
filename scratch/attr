@@ -1,0 +1,34 @@
+
+class Module
+  def attr_param(*symbols)
+    symbols.each { |sym|
+      self.class_eval %{
+        def #{sym}(*val)
+          val.empty? ? @#{sym} : @#{sym} = val
+        end
+      }
+    }
+  end
+end
+
+class Base
+  attr_param :a
+
+  #def a(*v)
+  #  v.empty? ? @a : @a = v
+  #end
+
+  def print_a
+    puts "a = #{a}"
+  end
+end
+
+
+class A < Base
+  def initialize
+    a 5
+    print_a
+  end
+end
+
+A.new

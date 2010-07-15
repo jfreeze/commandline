@@ -1,0 +1,59 @@
+== put next revision here
+- Fixed console_width bug found by Ilmari
+- Changed Application_wo_Autorun to BasicApplication
+- Added support for SYNOPSIS and DESCRIPTION categories in
+  the man page to contain multiple paragraphs.
+- Added WARNING for possible misspelling of initialize.
+- Added #use_posix to application so posix OptionParser can be invoked.
+  It is not automatic, even though all options could be posix. Should we change this?
+
+Release Notes
+  If you have installed OptionParser and then installed commandline, you may need
+  to uninstall OptionParser. A problem was experience by Eric Roode that the uninstall
+  cured.
+
+ 
+== 0.7.10 11/06/2005
+- Changed opt() to return @option_data
+- OptionData objects now can respond to methods as well as []
+
+== 0.7.9  11/05/2005
+=== Additions
+- Renamed gem to lowercase commandline
+- Added replay command options
+- Added CommandLine::Application_wo_AutoRun - no auto run set thru at_exit
+- Added documentation for CommandLine::Application - instead of just README
+- Changed :arg_arity to :arity in Option
+- Add :required for use with :opt_found
+- Added args accessor for @args - suggested by Esteban Manchado Velázquez
+- Added opt() accessor for @option_data[]
+
+== 0.7.6
+=== Additions
+- Kernel::debug
+- Add :expected_arguments
+
+== 0.7.5
+=== Bug Fixes
+- Fixed @arg_arity bug
+- Fixed copyright print bug
+- Remove need for super
+
+== 0.6.0  06/24/2005
+- Refitted and renamed gem to CommandLine
+- Added application class
+- Application is all new with many features - includes features
+  suggested from the ARCTAN group - Eric Mahurin, Bassam El Abid 
+  and Matt Lawrence
+- TODO: Add automatic synopsis generation
+- TODO: Add CVS like parsing
+
+== 0.5.1  06/17/2005
+- Contains all planned features except CVS like command handling
+- Fixed loading path using gems. Is now loaded by:
+   require 'rubygems'
+   require 'commandline/optionparser'
+- Updated documentation
+
+== 0.5.0  06/07/2005  
+- First public release

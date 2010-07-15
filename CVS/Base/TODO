@@ -1,0 +1,12 @@
+TODO
+- Support CVS style command line
+- Add :expected_arguments
+- Remove need for super
+- Support auto generated synopsis
+  - support expected args
+- change :opt_not_found to :default ?
+- Add :required to option ?
+
+Changes
+
+- Change :arg_arity to :arity in Option

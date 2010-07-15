@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>check_option_name (CommandLine::Option)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/commandline/optionparser.rb, line 138</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">check_option_name</span>(<span class="ruby-identifier">name</span>)
+    <span class="ruby-identifier">raise</span>(<span class="ruby-constant">InvalidOptionNameError</span>, 
+      <span class="ruby-node">&quot;Option name '#{name}' contains invalid space.&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-regexp re">/\s+/</span>.<span class="ruby-identifier">match</span>(<span class="ruby-identifier">name</span>)
+
+    <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@posix</span>
+      <span class="ruby-identifier">raise</span>(<span class="ruby-constant">InvalidOptionNameError</span>, 
+        <span class="ruby-node">&quot;Option name '#{name}' is invalid.&quot;</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">POSIX_OPTION_RE</span>.<span class="ruby-identifier">match</span>(<span class="ruby-identifier">name</span>)
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">raise</span>(<span class="ruby-constant">InvalidOptionNameError</span>, 
+        <span class="ruby-node">&quot;Option name '#{name}' is invalid.&quot;</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">NON_POSIX_OPTION_RE</span>.<span class="ruby-identifier">match</span>(<span class="ruby-identifier">name</span>)
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

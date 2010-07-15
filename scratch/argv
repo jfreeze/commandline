@@ -1,0 +1,6 @@
+#!/Users/jdf/local_ruby/ruby-1.8.2/bin/ruby -s
+
+p ARGV
+puts "fred: #{$fred}"
+puts "a:    #{$a}"
+puts "b:    #{$b}"

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>to_s (CommandLine::OptionParser)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/commandline/optionparser.rb, line 589</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_s</span>(<span class="ruby-identifier">sep</span>=<span class="ruby-value str">&quot;\n&quot;</span>)
+    <span class="ruby-identifier">require</span> <span class="ruby-value str">'commandline/text/format'</span>
+    <span class="ruby-ivar">@f</span> = <span class="ruby-constant">Text</span><span class="ruby-operator">::</span><span class="ruby-constant">Format</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-ivar">@f</span>.<span class="ruby-identifier">columns</span> = <span class="ruby-ivar">@columns</span>
+    <span class="ruby-ivar">@f</span>.<span class="ruby-identifier">first_indent</span>  = <span class="ruby-value">4</span>
+    <span class="ruby-ivar">@f</span>.<span class="ruby-identifier">body_indent</span>   = <span class="ruby-value">8</span>
+    <span class="ruby-ivar">@f</span>.<span class="ruby-identifier">tag_paragraph</span> = <span class="ruby-keyword kw">false</span>
+
+    <span class="ruby-identifier">header</span> = [<span class="ruby-value str">&quot;OPTIONS\n&quot;</span>]
+    <span class="ruby-identifier">s</span> = []
+    <span class="ruby-ivar">@options</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">opt</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">opt_str</span> = []
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+        <span class="ruby-identifier">result</span> = <span class="ruby-keyword kw">yield</span>(<span class="ruby-identifier">opt</span>.<span class="ruby-identifier">names</span>, <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">opt_description</span>, <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">arg_description</span>) 
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">String</span>)
+          <span class="ruby-identifier">opt_str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">result</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">empty?</span>
+        <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">nil?</span>
+          <span class="ruby-identifier">opt_str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">format_option</span>(<span class="ruby-identifier">opt</span>.<span class="ruby-identifier">names</span>, <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">opt_description</span>, <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">arg_description</span>) 
+        <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Array</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-value">3</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">size</span>
+          <span class="ruby-identifier">opt_str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">format_option</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">result</span>)
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Invalid return value #{result.inspect} from yield block &quot;</span><span class="ruby-operator">+</span>
+                <span class="ruby-value str">&quot;attached to #to_s.&quot;</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">opt_str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">format_option</span>(<span class="ruby-identifier">opt</span>.<span class="ruby-identifier">names</span>, <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">opt_description</span>, <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">arg_description</span>)
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">s</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">opt_str</span>.<span class="ruby-identifier">join</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">opt_str</span>.<span class="ruby-identifier">empty?</span>
+    }
+    <span class="ruby-comment cmt">#s.collect! { |i| i.kind_of?(Array) &amp;&amp; /\n+/ =~ i[0] ? i.join : f.paragraphs(i) }</span>
+    [<span class="ruby-identifier">header</span>, <span class="ruby-identifier">s</span>].<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">sep</span>)
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

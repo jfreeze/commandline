@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (CommandLine::Option)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/commandline/optionparser.rb, line 67</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">type</span> = <span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">properties</span>)
+    <span class="ruby-ivar">@posix</span> = <span class="ruby-keyword kw">false</span>
+
+    <span class="ruby-identifier">raise</span>(<span class="ruby-constant">MissingPropertyError</span>,
+      <span class="ruby-node">&quot;No properties specified for new #{self.class}.&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">type</span>.<span class="ruby-identifier">nil?</span>
+
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">properties</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">Hash</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">type</span>
+      <span class="ruby-identifier">properties</span> = <span class="ruby-identifier">type</span>
+      <span class="ruby-identifier">type</span> = <span class="ruby-identifier">:default</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">properties</span> = <span class="ruby-identifier">properties</span>.<span class="ruby-identifier">first</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-identifier">merge_hash</span> = 
+      <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">type</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:flag</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">FLAG_BASE_OPTS</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:default</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">DEFAULT_OPTS</span>
+      <span class="ruby-keyword kw">else</span> <span class="ruby-identifier">raise</span>(<span class="ruby-constant">InvalidConstructionError</span>, 
+        <span class="ruby-value str">&quot;Invalid arguments to Option.new. Must be a property hash with &quot;</span><span class="ruby-operator">+</span>
+        <span class="ruby-value str">&quot;keys [:names, :arg_arity, :opt_description, :arg_description, &quot;</span><span class="ruby-operator">+</span>
+        <span class="ruby-value str">&quot;:opt_found, :opt_not_found] or &quot;</span><span class="ruby-operator">+</span>
+        <span class="ruby-value str">&quot;an option type [:flag, :default].&quot;</span>)
+      <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-identifier">raise</span>(<span class="ruby-constant">InvalidPropertyError</span>, 
+      <span class="ruby-node">&quot;Don't understand argument of type '#{properties.class}' =&gt; &quot;</span><span class="ruby-operator">+</span>
+          <span class="ruby-node">&quot;#{properties.inspect} passed to #{self.class}.new. Looking &quot;</span><span class="ruby-operator">+</span>
+          <span class="ruby-value str">&quot;for type Hash.&quot;</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">properties</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Hash</span>)
+
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">properties</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">:posix</span>) 
+      <span class="ruby-ivar">@posix</span> = <span class="ruby-identifier">properties</span>[<span class="ruby-identifier">:posix</span>] 
+      <span class="ruby-identifier">properties</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">:posix</span>)
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-ivar">@properties</span> = <span class="ruby-identifier">merge_hash</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">properties</span>)
+    
+    <span class="ruby-ivar">@properties</span>[<span class="ruby-identifier">:names</span>] = [<span class="ruby-ivar">@properties</span>[<span class="ruby-identifier">:names</span>]] <span class="ruby-keyword kw">unless</span> 
+      <span class="ruby-ivar">@properties</span>[<span class="ruby-identifier">:names</span>].<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Array</span>)
+
+    <span class="ruby-identifier">arg_arity</span> = <span class="ruby-ivar">@properties</span>[<span class="ruby-identifier">:arg_arity</span>]
+    <span class="ruby-ivar">@properties</span>[<span class="ruby-identifier">:arg_arity</span>] = [<span class="ruby-identifier">arg_arity</span>, <span class="ruby-identifier">arg_arity</span>] <span class="ruby-keyword kw">unless</span> 
+      <span class="ruby-identifier">arg_arity</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Array</span>)
+
+    <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Invalid value for arg_arity '#{arg_arity}'.&quot;</span> <span class="ruby-keyword kw">unless</span> 
+      <span class="ruby-identifier">arg_arity</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Array</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">arg_arity</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Fixnum</span>)
+
+    <span class="ruby-identifier">raise</span>(<span class="ruby-constant">InvalidArgumentArityError</span>,
+      <span class="ruby-value str">&quot;Conflicting value given to new option: :flag &quot;</span><span class="ruby-operator">+</span>
+      <span class="ruby-node">&quot;and :arg_arity = #{properties[:arg_arity].inspect}.&quot;</span>) <span class="ruby-keyword kw">if</span> 
+        <span class="ruby-identifier">:flag</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">type</span> <span class="ruby-operator">&amp;&amp;</span> [<span class="ruby-value">0</span>,<span class="ruby-value">0</span>] <span class="ruby-operator">!=</span> <span class="ruby-ivar">@properties</span>[<span class="ruby-identifier">:arg_arity</span>]
+
+    <span class="ruby-identifier">names</span> = <span class="ruby-ivar">@properties</span>[<span class="ruby-identifier">:names</span>]
+    <span class="ruby-identifier">raise</span>(<span class="ruby-constant">MissingOptionNameError</span>, 
+      <span class="ruby-value str">&quot;Attempt to create an Option without :names defined.&quot;</span>) <span class="ruby-keyword kw">if</span> 
+      <span class="ruby-identifier">names</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">names</span>.<span class="ruby-identifier">empty?</span>
+
+    <span class="ruby-identifier">names</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span> <span class="ruby-identifier">check_option_name</span>(<span class="ruby-identifier">name</span>) }
+    <span class="ruby-identifier">validate_arity</span> <span class="ruby-ivar">@properties</span>[<span class="ruby-identifier">:arg_arity</span>]
+
+    <span class="ruby-identifier">create_opt_description</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">:flag</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">type</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

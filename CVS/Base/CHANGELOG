@@ -1,0 +1,8 @@
+== 0.7.6
+=== Additions
+- Kernel::debug
+
+== 0.7.5
+=== Bug Fixes
+- Fixed @arg_arity bug
+- Fixed copyright print bug

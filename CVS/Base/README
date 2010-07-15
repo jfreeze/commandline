@@ -1,0 +1,380 @@
+CommandLine - Application and OptionParser
+==========================================
+Author: Jim Freeze
+Copyright 2005 Jim Freeze
+
+ABOUT
+=====
+CommandLine is a tool that facilitates building command line
+applications and parsing the command line. Version 0.6.0
+supercedes OptionParser-0.5.0 since the option libs are now part
+of CommandLine. (I thought that maintianing two gems for 
+the option libraries would be confusing.)
+
+CommandLine provides a convenient way to quickly develop
+a professional looking commandline application.
+The OptionParser provides efficient tools to add and
+handle options while still allowing your application to 
+handle just about any argument configuration you may need.
+
+Probably the best way to describe how the tool works is
+with an example:
+
+
+  % cat app2.rb
+  #---------------------------------------------------
+  #!/usr/bin/env ruby
+
+  require 'rubygems'
+  require 'commandline'
+
+  #
+  # A minimum application
+  #
+  class App < CommandLine::Application
+
+    def initialize
+      args 1
+      super
+    end
+
+    def main
+    end
+  end#class App
+  #---------------------------------------------------
+
+  % app2.rb  
+   Usage: app2.rb 
+
+  % cat app5.rb 
+  #---------------------------------------------------
+  #!/usr/bin/env ruby
+
+  begin
+    require 'commandline'
+  rescue LoadError
+    require 'rubygems'
+    retry
+  end
+
+  class App < CommandLine::Application
+
+    def initialize
+      version           "0.0.1"
+      author            "Author Name"
+      copyright         "Copyright (c) 2005, Jim Freeze"
+      synopsis          "[-dhV] param_file out_file"
+      short_description "A simple app example that takes two arguments."
+      long_description  "app5 is a simple application example that supports "+
+                        "three options and two commandline arguments."
+
+      option :version
+      option :debug
+      option :help
+
+      args   :param_file, :out_file
+
+      super
+    end
+
+    def main
+      puts "main called"
+      puts "@param_file = #{@param_file}"
+      puts "@out_file   = #{@out_file}"
+    end
+  end#class App
+  #---------------------------------------------------
+
+  % app5.rb  
+   Usage: app5.rb [-dhV] param_file out_file
+
+  % app5.rb -h
+  NAME
+
+      app5.rb - A simple app example that takes two arguments.
+
+  DESCRIPTION
+
+      app5.rb is a simple application example that supports three options
+      and two commandline arguments.
+
+  OPTIONS
+
+      --version,-V
+          Displays application version.
+
+      --debug,-d
+          Sets debug to true.
+
+      --help,-h
+          Displays help page.
+
+  AUTHOR:  Author Name
+  Copyright (c) 2005, Jim Freeze
+
+  % app5.rb  f1 f2
+  main called
+  @param_file = f1
+  @out_file   = f2
+
+  % cat app6.rb
+  #---------------------------------------------------
+  #!/usr/bin/env ruby
+
+  begin
+    require 'commandline'
+  rescue LoadError
+    require 'rubygems'
+    retry
+  end
+
+  #
+  # An application demonstrating customizing of canonical options
+  #
+  class App < CommandLine::Application
+
+    def initialize
+      version           "0.0.1"
+      author            "Author Name"
+      copyright         "Copyright (c) 2005, Jim Freeze"
+      short_description "A simple app example that takes two arguments."
+      long_description  "This app is a simple application example that supports "+
+                        "three options and two commandline arguments."
+
+      option :version, :names => %w(--version -v --notice-the-change-from-app5)
+      option :debug, :arity => [0,1], :arg_description => "debug_level",
+             :opt_description => "Set debug level from 0 to 9."
+      option :help
+
+      args   :param_file, :out_file
+
+      super
+    end
+
+    def main
+      puts "main called"
+      puts "@param_file = #{@param_file}"
+      puts "@out_file   = #{@out_file}"
+    end
+  end#class App
+  #---------------------------------------------------
+
+  % app6.rb -h
+  NAME
+
+      app6.rb - A simple app example that takes two arguments.
+
+  DESCRIPTION
+
+      This app is a simple application example that supports three
+      options and two commandline arguments.
+
+  OPTIONS
+
+      --version,-v,--notice-the-change-from-app5
+          Displays application version.
+
+      --debug,-d debug_level
+          Set debug level from 0 to 9.
+
+      --help,-h
+          Displays help page.
+
+  AUTHOR:  Author Name
+  Copyright (c) 2005, Jim Freeze
+
+  % cat app7.rb 
+  #---------------------------------------------------
+  #!/usr/bin/env ruby
+
+  begin
+    require 'commandline'
+  rescue LoadError
+    require 'rubygems'
+    retry
+  end
+
+  #
+  # An application demonstrating customizing of canonical options
+  #
+  class App < CommandLine::Application
+
+    def initialize
+      version           "0.0.1"
+      author            "Author Name"
+      copyright         "Copyright (c) 2005, Jim Freeze"
+      short_description "A simple app example that takes two arguments."
+      long_description  "This app is a simple application example that supports "+
+                        "three options and two commandline arguments."
+
+      option :version, :names => %w(--version -v --notice-the-change-from-app5)
+      option :debug, :arity => [0,1], :arg_description => "debug_level",
+             :opt_description => "Set debug level from 0 to 9."
+      option :help
+
+      args   :param_file, :out_file
+
+      super
+    end
+
+    def main
+      puts "main called"
+      puts "@param_file = #{@param_file}"
+      puts "@out_file   = #{@out_file}"
+    end
+  end#class App
+  #---------------------------------------------------
+
+  % app7.rb -h
+  NAME
+
+      app7.rb - A simple app example that takes two arguments.
+
+  DESCRIPTION
+
+      This app is a simple application example that supports three
+      options and two commandline arguments.
+
+  OPTIONS
+
+      --version,-v,--notice-the-change-from-app5
+          Displays application version.
+
+      --debug,-d debug_level
+          Set debug level from 0 to 9.
+
+      --help,-h
+          Displays help page.
+
+  AUTHOR:  Author Name
+  Copyright (c) 2005, Jim Freeze
+
+TESTS
+=====
+Tests: 49
+Assertions: 215
+
+
+HISTORY
+=======
+After poking around in a few corporations, it was evident that
+option parsing was not well understood. Therefore, many inhouse
+tools were built that did not conform to any of the POSIX, Gnu or XTools
+option styles. CommandLine::OptionParser was developed so that
+new applications could be written that conformed to accepted standards,
+but non-standard option configurations could be handled as well
+to support legacy interfaces.
+
+Once the option parsing was written, there was a need to streamline
+the repetitive tasks in setting up an application. The original
+boilerplate was simple, but after taking a few cues from
+rails, a significant amount of functionality was added to
+Application that make it a very useful tool yet simple to use.
+
+More information and usage scenarios on OptionParser can be found at:
+    http://rubyforge.org/projects/optionparser/
+
+Download & Installation
+=======================
+
+Homepage:      http://rubyforge.org/projects/optionparser/
+Documentation: http://optionparser.rubyforge.org/
+Download:      http://rubyforge.org/frs/?group_id=632&release_id=2345
+
+Dependencies:
+* None
+
+Currently optionparser is only available as a rubygem.
+
+Via RubyGems 
+  $ gem install -r CommandLine
+
+All feedback is appreciated!
+
+Installations not yet available
+===============================
+# not in RPA yet
+Via RPA 
+  $ rpa install commandline
+  
+# this either
+The do-it-yourself way 
+  $ ruby setup.rb config
+  $ ruby setup.rb setup
+  $ ruby setup.rb install
+  
+# nor this
+The simplified do-it-yourself way 
+  $ rake install
+
+
+RELEASE NOTES
+=============
+
+0.6.0  06/24/2005
+* Refitted and renamed gem to CommandLine
+* Added application class
+* Application is all new with many features - includes features
+  suggested from the ARCTAN group - Eric Mahurin, Bassam El Abid 
+  and Matt Lawrence
+* TODO: Add automatic synopsis generation
+* TODO: Add CVS like parsing
+---------------------------------------------------------------------
+0.5.1  06/17/2005
+* Contains all planned features except CVS like command handling
+* Fixed loading path using gems. Is now loaded by:
+   require 'rubygems'
+   require 'commandline/optionparser'
+* Updated documentation
+
+---------------------------------------------------------------------
+0.5.0  06/07/2005  
+* First public release
+
+APPENDIX
+========
+OPTION PARSER 
+=============
+CommandLine is a library for building applications 
+and parsing commandlines.
+
+CommandLine::OptionParser is part of the CommandLine suite of
+tools and is used for command line parsing. The command line
+parser suite consists of classes CommandLine::Option, 
+CommandLine::OptionData and CommandLine::Application.
+
+The parser supports POSIX, Gnu and XTools style parsing options. 
+It also provides flexibility to support <em>non standard</em>
+options. For example:
+
+POSIX
+=====
+OptionParser.new Option.new(:posix, :names => "-f")
+
+Gnu
+===
+OptionParser.new Option.new(:names => %w[--file -f])
+
+XTools
+======
+OptionParser.new Option.new(:names => "-file")
+
+User
+====
+OptionParser.new(Option.new(
+   :names => %w(--file -file --files -files -f),
+   :arg_arity => [1,-1],
+   :arg_description => "file1 [file2, ...]"))
+
+This last option prints:
+
+ OPTIONS
+
+     --file,-file,--files,-files,-f file1 [file2, ...]
+
+
+ACKNOWLEDGEMENTS
+================
+This library contains code from:
+* Austin Ziegler - Text::Format
+* ?? - open4.rb - obtained from codeforthepeople

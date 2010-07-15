@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>parse (CommandLine::OptionParser)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/commandline/optionparser.rb, line 337</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">argv</span>=<span class="ruby-constant">ARGV</span>)
+    <span class="ruby-identifier">argv</span> = [<span class="ruby-identifier">argv</span>] <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">Array</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">argv</span>
+
+    <span class="ruby-comment cmt">#</span>
+    <span class="ruby-comment cmt"># Holds the results of each option. The key used is </span>
+    <span class="ruby-comment cmt"># the first in the :names Array.</span>
+    <span class="ruby-comment cmt">#</span>
+    <span class="ruby-identifier">opts</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">:not_found</span> )
+
+    <span class="ruby-comment cmt">#</span>
+    <span class="ruby-comment cmt"># A command is the first non-option free argument on the command line.</span>
+    <span class="ruby-comment cmt"># This is a user selection and is the first argument in args.</span>
+    <span class="ruby-comment cmt">#  cmd = args.shift</span>
+    <span class="ruby-comment cmt"># Example:</span>
+    <span class="ruby-comment cmt">#  cvs -v cmd --cmd-option arg</span>
+    <span class="ruby-comment cmt">#</span>
+    <span class="ruby-identifier">cmd</span> = <span class="ruby-keyword kw">nil</span>
+    <span class="ruby-identifier">cmd_options</span> = {}
+
+    <span class="ruby-comment cmt">#</span>
+    <span class="ruby-comment cmt"># #parse_argv yields an array containing the option and its arguments.</span>
+    <span class="ruby-comment cmt">#   [opts, array_args]</span>
+    <span class="ruby-comment cmt"># How do we collect all the arguments when OptionParser deal with an </span>
+    <span class="ruby-comment cmt"># empty option list</span>
+    <span class="ruby-comment cmt">#</span>
+    <span class="ruby-identifier">parse_argv</span>(<span class="ruby-identifier">argv</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">optarg</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">user_option</span>  = <span class="ruby-identifier">optarg</span>[<span class="ruby-value">0</span>]
+      <span class="ruby-identifier">args</span>         = <span class="ruby-identifier">optarg</span>[<span class="ruby-value">1</span>]
+
+      <span class="ruby-identifier">m</span> = <span class="ruby-keyword kw">nil</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@opt_lookup_by_any_name</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">user_option</span>) <span class="ruby-operator">||</span>
+         <span class="ruby-value">1</span> <span class="ruby-operator">==</span> (<span class="ruby-identifier">m</span> = <span class="ruby-ivar">@opt_lookup_by_any_name</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">grep</span>(<span class="ruby-node">/^#{user_option}/</span>)).<span class="ruby-identifier">size</span>
+        <span class="ruby-identifier">user_option</span> = <span class="ruby-identifier">m</span>[<span class="ruby-value">0</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">m</span>
+        <span class="ruby-identifier">opt</span>         = <span class="ruby-ivar">@opt_lookup_by_any_name</span>[<span class="ruby-identifier">user_option</span>]
+        <span class="ruby-identifier">opt_key</span>     = <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">names</span>[<span class="ruby-value">0</span>]
+
+        <span class="ruby-identifier">opts</span>[<span class="ruby-identifier">opt_key</span>] = 
+          <span class="ruby-keyword kw">if</span> <span class="ruby-constant">Proc</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">opt_found</span>
+            <span class="ruby-comment cmt"># Take the arguments depending upon arity</span>
+            <span class="ruby-identifier">opt_args</span> = <span class="ruby-identifier">get_opt_args</span>(<span class="ruby-identifier">opt</span>, <span class="ruby-identifier">user_option</span>, <span class="ruby-identifier">args</span>)
+            <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">opt_found</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">opt</span>, <span class="ruby-identifier">user_option</span>, <span class="ruby-identifier">opt_args</span>)
+          <span class="ruby-keyword kw">else</span>
+            <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">opt_found</span>
+          <span class="ruby-keyword kw">end</span>
+          <span class="ruby-comment cmt"># Collect any remaining args</span>
+          <span class="ruby-ivar">@args</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">args</span>
+
+      <span class="ruby-keyword kw">elsif</span> <span class="ruby-ivar">@collect_unknown_options</span>
+        <span class="ruby-ivar">@unknown_options</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">user_option</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">raise</span>(<span class="ruby-constant">UnknownOptionError</span>, <span class="ruby-node">&quot;Unknown option '#{user_option}' in &quot;</span><span class="ruby-operator">+</span>
+          <span class="ruby-node">&quot;#{@opt_lookup_by_any_name.inspect}.&quot;</span>) 
+      <span class="ruby-keyword kw">end</span>
+    }
+
+    <span class="ruby-comment cmt">#</span>
+    <span class="ruby-comment cmt"># Call :not_found for all the options not on the command line.</span>
+    <span class="ruby-comment cmt">#</span>
+    <span class="ruby-ivar">@options</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">opt</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">name</span> = <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">names</span>[<span class="ruby-value">0</span>]
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">:not_found</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">opts</span>[<span class="ruby-identifier">name</span>]
+        <span class="ruby-identifier">opts</span>[<span class="ruby-identifier">name</span>] = 
+        <span class="ruby-keyword kw">if</span> <span class="ruby-constant">Proc</span> <span class="ruby-operator">===</span> <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">opt_not_found</span>
+          <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">opt_not_found</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">opt</span>)
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">opt</span>.<span class="ruby-identifier">opt_not_found</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+    }
+
+    <span class="ruby-constant">OptionData</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">argv</span>, <span class="ruby-identifier">opts</span>, <span class="ruby-ivar">@unknown_options</span>, <span class="ruby-ivar">@args</span>, <span class="ruby-ivar">@not_parsed</span>, <span class="ruby-identifier">cmd</span>)
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

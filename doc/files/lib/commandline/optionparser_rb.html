@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: optionparser.rb</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>optionparser.rb</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>lib/commandline/optionparser.rb
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Mon Jun 13 17:13:03 CDT 2005</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <pre>
+ $Id: optionparser_rb.html,v 1.1.1.1 2005/09/08 15:51:38 jdf Exp $
+ $Source: /Users/jdf/projects/CVSROOT/devel/ruby/commandline/doc/files/lib/commandline/optionparser_rb.html,v $
+
+ Author: Jim Freeze
+ Copyright (c) 2005 Jim Freeze
+</pre>
+<h1>DESCRIPTION</h1>
+<p>
+A very flexible commandline parser
+</p>
+<h1>Revision History</h1>
+<pre>
+ Jim.Freeze 04/01/2005 Birthday
+</pre>
+<p>
+LICENSE
+</p>
+<p>
+This release is licensed under the RLL - Ruby Lovers License. If you
+don&#8217;t love Ruby, then you don&#8217;t have permission to even think
+about using/reading/ opening any file in this project.
+</p>
+<p>
+If you a lover of Ruby, then you may use this freely and pay for your use
+by giving feedback to the author, Jim Freeze.
+</p>
+<p>
+<a
+href="../../../classes/CommandLine/OptionParser.html">CommandLine::OptionParser</a>
+</p>
+<h6>===================</h6>
+<p>
+ABOUT
+</p>
+<h5></h5>
+<pre>
+ CommandLine::OptionParser is part of the CommandLine suite of
+ tools and is used for command line parsing. The parser integrates
+ with CommandLine::Option, CommandLine::OptionData and
+ CommandLine::Application.
+
+ The parser supports POSIX, Gnu and XTools style parsing options.
+ It also gives you flexibility to provide &lt;em&gt;non standard&lt;/em&gt;
+ options. For example:
+</pre>
+<p>
+POSIX
+</p>
+<h5></h5>
+<pre>
+ OptionParser.new Option.new(:names =&gt; &quot;-f&quot;)
+</pre>
+<p>
+Gnu
+</p>
+<h3></h3>
+<pre>
+ OptionParser.new Option.new(:names =&gt; %w[--file -f])
+</pre>
+<p>
+XTools
+</p>
+<h6></h6>
+<pre>
+ OptionParser.new Option.new(:names =&gt; &quot;-file&quot;)
+</pre>
+<p>
+User
+</p>
+<h4></h4>
+<pre>
+ OptionParser.new(Option.new(
+   :names =&gt; %w(--file -file --files -files -f),
+   :arg_arity =&gt; [1,-1],
+   :arg_description =&gt; &quot;file1 [file2, ...]&quot;))
+</pre>
+<p>
+This option parser with a single option prints:
+</p>
+<pre>
+ OPTIONS
+
+     --file,-file,--files,-files,-f file1 [file2, ...]
+
+ There is document describing the various usage scenarios
+ at its homepage.
+
+ After poking around in a few corporations, it was evident that
+ option parsing was not understood. Nevertheless, many tools
+ were built that did not conform to any of the POSIX, Gnu or XTools
+ option styles. CommandLine::OptionParser was developed so that
+ new application could be written that conformed to accepted standards,
+ but non-standard option configurations could be handled as well
+ to support legacy interfaces.
+
+ More information on OptionParser can be found on its homepage:
+ http://optionparser.rubyforge.org
+</pre>
+<p>
+Major Features - 06/07/2005
+</p>
+<h6>=======</h6>
+<ul>
+<li>First public release 0.5.0
+
+</li>
+</ul>
+<p>
+Thanks for all the feedback!
+</p>
+<p>
+Download &amp; Installation
+</p>
+<h6>=================</h6>
+<pre>
+ Homepage: http://optionparser.rubyforge.org
+ Download: http://rubyforge.org/frs/?group_id=296
+
+ Dependencies:
+ * None
+
+ There are many ways to install optionparser. Choose the one you like best:
+
+ Via RubyGems
+   $ gem install optionparser
+
+ not in RPA yet
+ Via RPA
+   $ rpa install optionparser
+
+ this either
+ The do-it-yourself way
+   $ ruby setup.rb config
+   $ ruby setup.rb setup
+   $ ruby setup.rb install
+
+ nor this
+ The simplified do-it-yourself way
+   $ rake install
+</pre>
+<p>
+Integration with Application
+</p>
+<h6>======================</h6>
+<pre>
+  class MyApp &lt;&lt; CommandLine::Application
+
+  end
+</pre>
+
+    </div>
+
+    <div id="requires-list">
+      <h3 class="section-bar">Required files</h3>
+
+      <div class="name-list">
+      commandline/text/format&nbsp;&nbsp;
+      </div>
+    </div>
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+class App
+
+  def initialize
+    puts "App base initialize"
+    derived_init
+  end
+
+  def self.run
+    class_eval <<-EOT
+      class #{@@child_class.name}
+        alias :derived_init :initialize
+      end
+    EOT
+    #@@child_class << self
+    #    alias :derived_init :initialize
+    #end
+    @@child_class.new.main
+    rescue => err
+      puts "ERROR: #{err}"
+      exit(-1)
+  end
+
+  def self.inherited(child_class)
+    @@child_class = child_class
+    at_exit { @@child_class.run }
+  end
+end
+
+class MyApp < App
+#  def initialize
+#    puts "MyApp#initialize"
+#  end
+
+  def main
+    puts "MyApp#main"
+  end
+end

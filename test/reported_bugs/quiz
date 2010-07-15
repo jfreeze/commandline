@@ -1,0 +1,6 @@
+
+ARGV.replace []
+print "5+5= "
+ans = gets
+puts 10 == ans.to_i
+
